@@ -88,6 +88,36 @@ defmodule Jasonapi.ResourceTest do
     def name, do: "Niagara Glen"
   end
 
+  defmodule CompanyResource do
+    @behaviour Resource
+
+    @impl true
+    def id(d), do: d.id
+
+    @impl true
+    def type(_), do: "company"
+
+    @impl true
+    def attributes(d), do: %{name: d.name}
+
+    @impl true
+    def relationships(data) do
+      %{
+        athletes: %{
+          links: %{
+            self: "http://example.com/company/#{data.id}/relationships/athletes"
+          }
+        }
+      }
+    end
+  end
+
+  defmodule Company do
+    def id, do: "88u7uy7"
+
+    def name, do: "Evolv"
+  end
+
   describe "#to_map" do
     test "can return the simples possible allowed value" do
       ro = Resource.to_map(UserResource, User)
@@ -133,6 +163,25 @@ defmodule Jasonapi.ResourceTest do
           self: "http://example.com/crag/987",
           related: %{
             href: "http://example.com/maps?crag=987"
+          }
+        }
+      }
+    end
+
+    test "supports relationships" do
+      ro = Resource.to_map(CompanyResource, Company)
+
+      assert ro == %{
+        id: "88u7uy7",
+        type: "company",
+        attributes: %{
+          name: "Evolv"
+        },
+        relationships: %{
+          athletes: %{
+            links: %{
+              self: "http://example.com/company/88u7uy7/relationships/athletes"
+            }
           }
         }
       }

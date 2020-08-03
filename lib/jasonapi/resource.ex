@@ -15,8 +15,8 @@ defmodule Jasonapi.Resource do
     required(:type) => String.t(),
     optional(:attributes) => map(),
     optional(:meta) => meta(),
-    optional(:links) => map(),
-    optional(:relationships) => map()
+    optional(:links) => links(),
+    optional(:relationships) => relationships()
   }
 
   @typedoc """
@@ -32,7 +32,17 @@ defmodule Jasonapi.Resource do
   https://jsonapi.org/format/#document-resource-object-relationships
   """
   @type relationships :: %{
-
+    atom() => %{
+      optional(:links) => %{
+        optional(:self) => String.t(),
+        optional(:related) => String.t()
+      },
+      optional(:data) => %{
+        required(:type) => String.t(),
+        required(:id) => String.t()
+      },
+      optional(:meta) => meta()
+    }
   }
 
   @typedoc """
@@ -69,7 +79,7 @@ defmodule Jasonapi.Resource do
 
   @optional_callbacks links: 1, included: 1, meta: 1, relationships: 1, attributes: 1
 
-  @optional_keys [:attributes, :links, :meta]
+  @optional_keys [:attributes, :links, :meta, :relationships]
 
   @doc """
   Converts some data into a map that represents a resource object using some
@@ -89,14 +99,10 @@ defmodule Jasonapi.Resource do
 
     @optional_keys
     |> Enum.filter(& function_exported?(impl, &1, 1))
-    |> Enum.reduce(ro, fn key, acc ->
-      val = apply(impl, key, [datum])
-
-      if is_nil(val) do
-        acc
-      else
-        Map.put(acc, key, val)
-      end
+    |> Enum.map(fn key ->
+      {key, apply(impl, key, [datum])}
     end)
+    |> Enum.reject(fn {_key, val} -> is_nil(val) end)
+    |> Enum.into(ro)
   end
 end
