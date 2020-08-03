@@ -33,8 +33,7 @@ defmodule Jasonapi.MixProject do
   defp dialyzer do
     [
       plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
-      plt_add_deps: :app_tree,
-      ignore_warnings: ".dialyzer_ignore.exs"
+      plt_add_deps: :app_tree
     ]
   end
 
