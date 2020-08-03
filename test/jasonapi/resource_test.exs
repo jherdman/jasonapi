@@ -107,6 +107,12 @@ defmodule Jasonapi.ResourceTest do
           links: %{
             self: "http://example.com/company/#{data.id}/relationships/athletes"
           }
+        },
+        parent_company: %{
+          data: %{
+            type: "company",
+            id: data.parent_company_id
+          }
         }
       }
     end
@@ -116,6 +122,8 @@ defmodule Jasonapi.ResourceTest do
     def id, do: "88u7uy7"
 
     def name, do: "Evolv"
+
+    def parent_company_id, do: "999i"
   end
 
   describe "#to_map" do
@@ -181,6 +189,12 @@ defmodule Jasonapi.ResourceTest do
           athletes: %{
             links: %{
               self: "http://example.com/company/88u7uy7/relationships/athletes"
+            }
+          },
+          parent_company: %{
+            data: %{
+              type: "company",
+              id: "999i"
             }
           }
         }

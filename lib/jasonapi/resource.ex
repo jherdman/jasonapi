@@ -1,7 +1,5 @@
 defmodule Jasonapi.Resource do
-  @moduledoc """
-
-  """
+  @moduledoc false
 
   @type t :: __MODULE__
 
