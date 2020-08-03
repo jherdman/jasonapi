@@ -1,21 +1,8 @@
 # Jasonapi
 
-**TODO: Add description**
+This is an experiment in using Elixir behaviours to help define JSON:API spec
+compliant serializers. The idea is to defined `Resource`s that implement a
+behaviour, and these turn some piece of data into a JSON:API
+ [Resource Object](https://jsonapi.org/format/#document-resource-objects).
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `jasonapi` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:jasonapi, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/jasonapi](https://hexdocs.pm/jasonapi).
-
+It is NOT recommended that you use this library at all.
