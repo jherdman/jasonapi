@@ -1,7 +1,7 @@
 defmodule Jasonapi.ResourceTest do
   use ExUnit.Case
 
-  alias Jasonapi.Resource
+  alias Jasonapi.{Car, CarResource, Resource}
 
   defmodule UserResource do
     @behaviour Resource
@@ -15,25 +15,6 @@ defmodule Jasonapi.ResourceTest do
 
   defmodule User do
     def id, do: "123"
-  end
-
-  defmodule CarResource do
-    @behaviour Resource
-
-    @impl true
-    def id(struct), do: struct.id
-
-    @impl true
-    def type(_struct), do: "motor-vehicle"
-
-    @impl true
-    def meta(struct), do: %{drivers: struct.num_drivers}
-  end
-
-  defmodule Car do
-    def id, do: "345"
-
-    def num_drivers, do: 5
   end
 
   defmodule FarmResource do
